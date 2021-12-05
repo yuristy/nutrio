@@ -1,4 +1,4 @@
-const startServer = async () => {
+const startServer = async (dbPath, mongoose, app, port) => {
   try {
     await mongoose.connect(dbPath);
     app.listen(port, () => {
@@ -8,3 +8,5 @@ const startServer = async () => {
     console.log(e);
   }
 };
+
+module.exports = startServer;
