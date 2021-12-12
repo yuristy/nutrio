@@ -3,10 +3,20 @@ const Role = require("../models/Role");
 
 const messages = require("../messages");
 const bcrypt = require("bcrypt");
+const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+
+const { getJwtToken } = require("../utils");
+
+const secret = process.env.SECRET || "";
 
 class authController {
   async registration(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ message: messages.regError, errors });
+      }
       const { username, password } = req.body;
       const candidate = await User.findOne({ username });
       if (candidate) return res.status(400).json(messages.regError);
@@ -24,9 +34,16 @@ class authController {
     }
   }
 
-  login(req, res) {
+  async login(req, res) {
     try {
       const { username, password } = req.body;
+      const user = await User.findOne({ username });
+      if (!user) return res.status(400).json(messages.loginError);
+      const isPassCorrect = bcrypt.compareSync(password, user.password);
+      if (!isPassCorrect)
+        return res.status(400).json({ message: messages.loginError });
+      const token = getJwtToken(jwt, secret, user._id, user.roles);
+      res.status(200).json({ message: messages.loginSuccess });
     } catch (e) {
       res.status(400).json(messages.loginError);
     }

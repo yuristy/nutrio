@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
-const startServer = require("./utils");
+const { startServer } = require("./utils");
 const authRouter = require("./routers/authRouter");
 
 const port = process.env.PORT || 5000;
