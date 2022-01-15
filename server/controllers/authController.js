@@ -48,6 +48,14 @@ class authController {
       res.status(400).json(messages.loginError);
     }
   }
+
+  async logout(req, res) {
+    try {
+      res.status(200).json({ messages: messages.logoutSuccess });
+    } catch (e) {
+      res.status(400).json(messages.logoutError);
+    }
+  }
 }
 
 module.exports = new authController();
