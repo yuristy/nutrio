@@ -18,5 +18,8 @@ authRouter.post(
   authController.registration
 );
 authRouter.post("/login", authController.login);
+authRouter.post("/logout", authController.logout);
+authRouter.get("/activate:link");
+authRouter.get("/refresh");
 
 module.exports = authRouter;
