@@ -14,7 +14,7 @@ const getJwtToken = (jwt, secret, id, roles) => {
     id,
     roles,
   };
-  return jwt.sign(payload, secret, { expiresIn: "12h" });
+  return jwt.sign(payload, secret, { expiresIn: "30m" });
 };
 
 module.exports = { startServer, getJwtToken };
