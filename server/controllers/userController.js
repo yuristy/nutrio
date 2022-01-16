@@ -1,8 +1,6 @@
 const { validationResult } = require("express-validator");
 const messages = require("../messages");
 
-const RoleModel = require("../models/Role");
-
 const userService = require("../services/userService");
 
 class userController {
