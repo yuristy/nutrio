@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const authController = require("../controllers/authController");
+const userController = require("../controllers/userController");
 const { check } = require("express-validator");
 const { checkIfNumberOnly } = require("../middlewares/middlewares");
 
@@ -15,10 +15,10 @@ authRouter.post(
     ).isLength({ min: 4, max: 10 }),
     checkIfNumberOnly,
   ],
-  authController.registration
+  userController.registration
 );
-authRouter.post("/login", authController.login);
-authRouter.post("/logout", authController.logout);
+authRouter.post("/login", userController.login);
+authRouter.post("/logout", userController.logout);
 authRouter.get("/activate:link");
 authRouter.get("/refresh");
 
