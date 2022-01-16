@@ -23,7 +23,10 @@ class UserService {
       activationId,
       roles: [userRole],
     });
-    await emailService.sendActivationMail(email, activationId);
+    await emailService.sendActivationMail(
+      email,
+      `${process.env.API_HOST}/auth/activate/${activationId}`
+    );
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
@@ -34,7 +37,7 @@ class UserService {
   //   const { username, password } = req.body;
   //   const user = await User.findOne({ username });
   //   if (!user) return res.status(400).json(messages.loginError);
-  //   const isPassCorrect = bcrypt.compareSync(password, user.password);
+  //   const isPassCorrect = bcrypt.compare(password, user.password);
   //   if (!isPassCorrect)
   //     return res.status(400).json({ message: messages.loginError });
   //   const token = getJwtToken(jwt, secret, user._id, user.roles);
