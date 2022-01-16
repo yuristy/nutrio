@@ -1,6 +1,6 @@
 const { Router } = require("express");
-const userController = require("../controllers/userController");
 const { check } = require("express-validator");
+const userController = require("../controllers/userController");
 const { checkIfNumberOnly } = require("../middlewares/middlewares");
 
 const authRouter = new Router();
@@ -8,7 +8,7 @@ const authRouter = new Router();
 authRouter.post(
   "/registration",
   [
-    check("username", "Имя не должно быть пустым").notEmpty(),
+    check("email", "Имя не должно быть пустым").notEmpty(),
     check(
       "password",
       "Пароль доложен быть больше 4 и меньше 10 символов"
@@ -17,9 +17,10 @@ authRouter.post(
   ],
   userController.registration
 );
-authRouter.post("/login", userController.login);
-authRouter.post("/logout", userController.logout);
-authRouter.get("/activate:link");
-authRouter.get("/refresh");
+// authRouter.post("/login", userController.login);
+// authRouter.post("/logout", userController.logout);
+// authRouter.get("/activate:link");
+// authRouter.get("/refresh");
+// authRouter.get("/users", userController.getUsers);
 
 module.exports = authRouter;

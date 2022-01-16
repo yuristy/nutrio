@@ -2,8 +2,8 @@ const UserModel = require("../models/User");
 const RoleModel = require("../models/Role");
 const UserDto = require("../dtos/userDto");
 
-const EmailService = require("./emailService");
-const TokenService = require("./tokenService");
+const emailService = require("./emailService");
+const tokenService = require("./tokenService");
 
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
@@ -14,22 +14,38 @@ class UserService {
   async registration(email, password) {
     const candidate = await UserModel.findOne({ email });
     if (candidate) throw new Error(messages.regError);
-    const hashedPass = bcrypt.hashSync(password, 3);
-    const activationLink = uuid.v4();
-    const userRole = RoleModel.findOne({ value: "USER" });
+    // const hashedPass = bcrypt.hashSync(password, 3);
+    const activationId = uuid.v4();
+    // const userRole = RoleModel.findOne({ value: "USER" });
     const user = await UserModel.create({
       email,
-      password: hashedPass,
-      activationLink,
-      roles: [userRole],
+      password,
+      // activationId,
+      // roles: [userRole],
     });
-    await EmailService.sendActivationMail(email, activationLink);
+    console.log(1);
+    await emailService.sendActivationMail(email, activationId);
     const userDto = new UserDto(user);
-    const tokens = TokenService.generateTockens({ ...userDto });
-    await TokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
+    // const tokens = tokenService.generateTockens({ ...userDto });
+    // await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
 
-    return { ...tokens, user: userDto };
+    return user;
   }
+
+  // async login() {
+  //   const { username, password } = req.body;
+  //   const user = await User.findOne({ username });
+  //   if (!user) return res.status(400).json(messages.loginError);
+  //   const isPassCorrect = bcrypt.compareSync(password, user.password);
+  //   if (!isPassCorrect)
+  //     return res.status(400).json({ message: messages.loginError });
+  //   const token = getJwtToken(jwt, secret, user._id, user.roles);
+  // }
+
+  // async getUsers() {
+  //   const users = await UserModel.find();
+  //   return users;
+  // }
 }
 
 module.exports = new UserService();

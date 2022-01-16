@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
-const cookieParser = require("cookieparser");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { startServer } = require("./utils");
 const authRouter = require("./routers/authRouter");
