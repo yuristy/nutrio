@@ -1,6 +1,6 @@
 const checkIfNumberOnly = (req, res, next) => {
-  const { username } = req.body;
-  if (!isNaN(+username)) {
+  const { email } = req.body;
+  if (!isNaN(+email)) {
     return res
       .status(400)
       .json({ message: "Username cannot contain numbers only" });

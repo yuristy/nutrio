@@ -14,22 +14,20 @@ class UserService {
   async registration(email, password) {
     const candidate = await UserModel.findOne({ email });
     if (candidate) throw new Error(messages.regError);
-    // const hashedPass = bcrypt.hashSync(password, 3);
+    const hashedPass = await bcrypt.hashSync(password, 3);
     const activationId = uuid.v4();
-    // const userRole = RoleModel.findOne({ value: "USER" });
+    const userRole = await RoleModel.findOne({ value: "USER" });
     const user = await UserModel.create({
       email,
-      password,
-      // activationId,
-      // roles: [userRole],
+      password: hashedPass,
+      activationId,
+      roles: [userRole],
     });
-    console.log(1);
     await emailService.sendActivationMail(email, activationId);
     const userDto = new UserDto(user);
-    // const tokens = tokenService.generateTockens({ ...userDto });
-    // await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
-
-    return user;
+    const tokens = tokenService.generateTokens({ ...userDto });
+    await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
+    return { ...tokens, user: userDto };
   }
 
   // async login() {
