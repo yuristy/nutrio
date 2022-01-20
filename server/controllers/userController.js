@@ -39,6 +39,15 @@ class userController {
     }
   }
 
+  async activate(req, res) {
+    try {
+      const activationId = req.params.link;
+      res.json(activationId);
+    } catch (e) {
+      res.status(400).json(messages.logoutError);
+    }
+  }
+
   async getUsers(req, res) {
     const users = await userService.getUsers();
     res.status(200).json(users);
