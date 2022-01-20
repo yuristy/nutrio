@@ -33,6 +33,16 @@ class UserService {
     return { ...tokens, user: userDto };
   }
 
+  async activate(activationId) {
+    const user = await UserModel.findOne({ activationId });
+    if (!user) throw new Error(messages.regError); //TODO
+    user.isActivated = true;
+    console.log(1);
+    await user.save();
+    console.log(2);
+    return user.isActivated;
+  }
+
   // async login() {
   //   const { username, password } = req.body;
   //   const user = await User.findOne({ username });

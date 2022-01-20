@@ -41,8 +41,11 @@ class userController {
 
   async activate(req, res) {
     try {
-      const activationId = req.params.link;
-      res.json(activationId);
+      // const activationId = req.params.link;
+      // await userService.activate(activationId);
+      // res.redirect(process.env.FRONT_HOST);
+      res.redirect("https://yandex.ru");
+      console.log(1);
     } catch (e) {
       res.status(400).json(messages.logoutError);
     }
