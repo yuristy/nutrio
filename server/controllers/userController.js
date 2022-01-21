@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const messages = require("../messages");
 
 const userService = require("../services/userService");
+const tokenService = require("../services/tokenService");
 
 class userController {
   async registration(req, res) {
@@ -42,7 +43,7 @@ class userController {
   async logout(req, res) {
     try {
       const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
+      const token = await tokenService.removeToken(refreshToken);
       res.clearCookie("refreshToken");
       res.status(200).json({ messages: messages.logoutSuccess, token });
     } catch (e) {
@@ -57,6 +58,20 @@ class userController {
       res.redirect(process.env.CLIENT_HOST);
     } catch (e) {
       res.status(400).json(messages.logoutError);
+    }
+  }
+
+  async refresh(req, res) {
+    try {
+      const { refreshToken } = req.cookies;
+      const userData = await userService.refresh(refreshToken);
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+      res.status(200).json({ mesages: messages.refreshSuccess, ...userData });
+    } catch {
+      res.status(400).json(messages.refreshError);
     }
   }
 

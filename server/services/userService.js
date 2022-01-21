@@ -53,11 +53,6 @@ class UserService {
     return { ...tokens, user: userDto };
   }
 
-  async logout(refreshToken) {
-    const token = await TokenModel.deleteOne({ refreshToken });
-    return token;
-  }
-
   async getUsers() {
     return users;
   }
