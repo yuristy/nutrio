@@ -9,12 +9,4 @@ const startServer = async (dbPath, mongoose, app, port) => {
   }
 };
 
-const getJwtToken = (jwt, secret, id, roles) => {
-  const payload = {
-    id,
-    roles,
-  };
-  return jwt.sign(payload, secret, { expiresIn: "30m" });
-};
-
-module.exports = { startServer, getJwtToken };
+module.exports = { startServer };

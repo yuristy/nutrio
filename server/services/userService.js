@@ -1,5 +1,6 @@
 const UserModel = require("../models/User");
 const RoleModel = require("../models/Role");
+const TokenModel = require("../models/Token");
 const UserDto = require("../dtos/userDto");
 
 const emailService = require("./emailService");
@@ -41,20 +42,25 @@ class UserService {
     return user.isActivated;
   }
 
-  // async login() {
-  //   const { username, password } = req.body;
-  //   const user = await User.findOne({ username });
-  //   if (!user) return res.status(400).json(messages.loginError);
-  //   const isPassCorrect = bcrypt.compare(password, user.password);
-  //   if (!isPassCorrect)
-  //     return res.status(400).json({ message: messages.loginError });
-  //   const token = getJwtToken(jwt, secret, user._id, user.roles);
-  // }
+  async login(email, password) {
+    const user = await UserModel.findOne({ email });
+    if (!user) throw new Error(messages.regError); //TODO
+    const isPassCorrect = await bcrypt.compare(password, user.password);
+    if (!isPassCorrect) throw new Error(messages.regError);
+    const userDto = new UserDto(user);
+    const tokens = tokenService.generateTokens({ ...userDto });
+    await tokenService.saveRefreshToken(userDto.id, tokens.refreshToken);
+    return { ...tokens, user: userDto };
+  }
 
-  // async getUsers() {
-  //   const users = await UserModel.find();
-  //   return users;
-  // }
+  async logout(refreshToken) {
+    const token = await TokenModel.deleteOne({ refreshToken });
+    return token;
+  }
+
+  async getUsers() {
+    return users;
+  }
 }
 
 module.exports = new UserService();

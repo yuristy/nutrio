@@ -25,7 +25,15 @@ class userController {
 
   async login(req, res) {
     try {
-      res.status(200).json({ message: messages.loginSuccess });
+      const { email, password } = req.body;
+      const userData = await userService.login(email, password);
+      res.cookie("refreshToken", userData.refreshToken, {
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      });
+      return res
+        .status(200)
+        .json({ mesages: messages.loginSuccess, ...userData });
     } catch (e) {
       res.status(400).json(messages.loginError);
     }
@@ -33,7 +41,10 @@ class userController {
 
   async logout(req, res) {
     try {
-      res.status(200).json({ messages: messages.logoutSuccess });
+      const { refreshToken } = req.cookies;
+      const token = await userService.logout(refreshToken);
+      res.clearCookie("refreshToken");
+      res.status(200).json({ messages: messages.logoutSuccess, token });
     } catch (e) {
       res.status(400).json(messages.logoutError);
     }
@@ -43,7 +54,7 @@ class userController {
     try {
       const activationId = req.params.link;
       await userService.activate(activationId);
-      res.redirect(process.env.FRONT_HOST);
+      res.redirect(process.env.CLIENT_HOST);
     } catch (e) {
       res.status(400).json(messages.logoutError);
     }
