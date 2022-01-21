@@ -21,7 +21,7 @@ class UserService {
       email,
       password: hashedPass,
       activationId,
-      roles: [userRole],
+      roles: [userRole.value],
     });
     await emailService.sendActivationMail(
       email,

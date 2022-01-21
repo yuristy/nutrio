@@ -7,7 +7,7 @@ module.exports = class UserDto {
   constructor(model) {
     this.email = model.email;
     this.id = model._id;
-    this.roles = model.roles.join(",");
+    this.roles = model.roles;
     this.isActivated = model.isActivated;
   }
 };
