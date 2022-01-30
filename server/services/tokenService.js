@@ -54,15 +54,14 @@ class TokenService {
 
   async refreshToken(refreshToken) {
     if (!refreshToken) throw new Error(messages.refreshError);
-    const isTokenValid = validateRefreshToken(refreshToken);
+    const isTokenValid = this.validateRefreshToken(refreshToken);
     const tokenData = await TokenModel.findOne({ refreshToken });
-
     if (!isTokenValid || !tokenData) throw new Error(messages.refreshError);
 
     const user = UserModel.findById(tokenData.user);
     const userDto = new UserDto(user);
-    const tokens = generateTokens({ ...userDto });
-    await saveRefreshToken(userDto.id, tokens.refreshToken);
+    const tokens = this.generateTokens({ ...userDto });
+    await this.saveRefreshToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };
   }
 }

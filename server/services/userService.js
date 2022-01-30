@@ -36,7 +36,7 @@ class UserService {
 
   async activate(activationId) {
     const user = await UserModel.findOne({ activationId });
-    if (!user) throw new Error(messages.regError); //TODO
+    if (!user) throw new Error(messages.regError); //TODO сделать сообщения об ошибке
     user.isActivated = true;
     await user.save();
     return user.isActivated;
@@ -44,7 +44,7 @@ class UserService {
 
   async login(email, password) {
     const user = await UserModel.findOne({ email });
-    if (!user) throw new Error(messages.regError); //TODO
+    if (!user) throw new Error(messages.regError); //TODO сделать сообщения об ошибке
     const isPassCorrect = await bcrypt.compare(password, user.password);
     if (!isPassCorrect) throw new Error(messages.regError);
     const userDto = new UserDto(user);
