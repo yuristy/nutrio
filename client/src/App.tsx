@@ -1,12 +1,14 @@
-import React from 'react';
-import './App.css';
+import React, { FC } from 'react';
+import './App.scss';
 
-function App() {
-  return (
-    <div className="App">
+import AuthForm from './components/AuthForm/AuthForm';
 
-    </div>
-  );
-}
+const App: FC = () => {
+    return (
+        <div className="wrapper">
+            <AuthForm />
+        </div>
+    );
+};
 
 export default App;
