@@ -1,0 +1,23 @@
+.wrapper__welcome {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    color: #7f00ff;
+  }
+
+  /* .welcome__headers {
+    align-self: flex-start;
+  } */
+
+  .welcome__buttons {
+    display: flex;
+  justify-content: space-between;
+  align-items: space-between;
+  min-width: 280px;
+  }
+}
