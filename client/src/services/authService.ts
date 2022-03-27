@@ -11,6 +11,15 @@ class AuthService {
             .post('/auth/registration', { email, password })
             .then((response) => response.data);
     }
+
+    login(
+        email: string,
+        password: string
+    ): Promise<AxiosResponse<IAuthResponse>> {
+        return $api
+            .post('/auth/login', { email, password })
+            .then((response) => response.data);
+    }
 }
 
 export default new AuthService();

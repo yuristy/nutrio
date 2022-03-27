@@ -6,3 +6,9 @@ export const doRegistration = (formValue: IAuthInfo) => {
         payload: formValue,
     };
 };
+export const doLogin = (formValue: IAuthInfo) => {
+    return {
+        type: 'DO_LOGIN',
+        payload: formValue,
+    };
+};

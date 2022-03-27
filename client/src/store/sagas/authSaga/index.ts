@@ -7,8 +7,10 @@ import {
     IUserInfo,
 } from '../../../interfaces';
 import { setUserInfo } from '../../reducers/authReducer/authActions';
+import { setLoginLoading, setRegLoading } from '../../reducers/uiReducer/uiActions';
 
 function* registrationWorker(action: IAction<IAuthInfo>) {
+    yield put(setRegLoading(true))
     const { email, password } = yield action.payload;
     const response: IAuthResponse = yield AuthService.registration(
         email,
@@ -16,8 +18,20 @@ function* registrationWorker(action: IAction<IAuthInfo>) {
     );
     const userInfo: IUserInfo = { isAuthenticated: false, user: response.user };
     yield put(setUserInfo(userInfo));
+    yield put(setRegLoading(false))
 }
-function* loginWorker() {}
+function* loginWorker(action: IAction<IAuthInfo>) {
+    yield put(setLoginLoading(true))
+    const { email, password } = yield action.payload;
+    const response: IAuthResponse = yield AuthService.login(
+        email,
+        password
+    );
+    const userInfo: IUserInfo = { isAuthenticated: true, user: response.user };
+
+    yield put(setUserInfo(userInfo));
+    yield put(setLoginLoading(false))
+}
 
 function* authWatcher() {
     yield takeEvery('DO_REGISTRATION', registrationWorker);
