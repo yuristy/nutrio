@@ -53,7 +53,7 @@ class userController {
         try {
             const activationId = req.params.link;
             await userService.activate(activationId);
-            res.redirect(process.env.CLIENT_HOST);
+            res.redirect(process.env.AUTH_REDIRECT_URL);
         } catch (e) {
             res.status(400).json(messages.logoutError);
         }

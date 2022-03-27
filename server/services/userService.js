@@ -1,6 +1,5 @@
 const UserModel = require('../models/User');
 const RoleModel = require('../models/Role');
-const TokenModel = require('../models/Token');
 const UserDto = require('../dtos/userDto');
 
 const emailService = require('./emailService');

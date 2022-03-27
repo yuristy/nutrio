@@ -11,7 +11,7 @@ authRouter.post(
         check('email', 'Имя не должно быть пустым').notEmpty(),
         check(
             'password',
-            'Пароль доложен быть больше 4 и меньше 10 символов'
+            'Пароль должен быть больше 4 и меньше 10 символов'
         ).isLength({ min: 4, max: 10 }),
         checkIfNumberOnly,
     ],
