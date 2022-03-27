@@ -21,6 +21,9 @@ export interface IUserInfo {
   user: IUser;
 }
 
+export interface IUserAuthInfo {
+  authInfo: IUserInfo;
+}
 
 export interface IAction<T> {
   type: string;
