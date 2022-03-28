@@ -25,6 +25,15 @@ export interface IUserAuthInfo {
   authInfo: IUserInfo;
 }
 
+export interface IUiLoadersInfo {
+  isLoginLoading: boolean,
+  isRegLoading: boolean,
+  isLogoutLoading: boolean,
+}
+
+export interface IUiInfo {
+  uiInfo: IUiLoadersInfo
+}
 export interface IAction<T> {
   type: string;
   payload?: T;

@@ -7,7 +7,7 @@ import { At, Key, Lock } from 'tabler-icons-react';
 import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
 import { doLogin } from '../../../store/sagas/authSaga/actions';
 
-import { IAuthInfo, IUserAuthInfo } from '../../../interfaces';
+import { IAuthInfo, IUserAuthInfo, IUiInfo } from '../../../interfaces';
 
 const AuthLoginForm: FC = () => {
     const dispatcher = useDispatch();
@@ -15,14 +15,16 @@ const AuthLoginForm: FC = () => {
         (state: IUserAuthInfo) => state.authInfo.isAuthenticated
     );
 
-    const isLoginLoading = useSelector((state: any) => state.uiInfo.isLoginLoading);
+    const isLoginLoading = useSelector(
+        (state: IUiInfo) => state.uiInfo.isLoginLoading
+    );
     let navigate = useNavigate();
 
     useEffect(() => {
         if (isAuthenticated) {
             return navigate('/');
         }
-    }, [isAuthenticated]);
+    });
 
     const [formValue, setFormValue] = useState<IAuthInfo>({
         email: '',

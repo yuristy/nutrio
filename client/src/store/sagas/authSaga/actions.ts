@@ -12,3 +12,9 @@ export const doLogin = (formValue: IAuthInfo) => {
         payload: formValue,
     };
 };
+
+export const doLogout = () => {
+    return {
+        type: 'DO_LOGOUT'
+    };
+};

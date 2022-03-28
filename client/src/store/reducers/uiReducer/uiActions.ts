@@ -5,3 +5,7 @@ export const setLoginLoading = (payload: boolean) => {
 export const setRegLoading = (payload: boolean) => {
     return { type: 'SET_REG_LOADING', payload }
 }
+
+export const setLogoutLoading = (payload: boolean) => {
+    return { type: 'SET_LOGOUT_LOADING', payload }
+}

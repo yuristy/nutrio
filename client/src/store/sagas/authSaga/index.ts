@@ -7,7 +7,7 @@ import {
     IUserInfo,
 } from '../../../interfaces';
 import { setUserInfo } from '../../reducers/authReducer/authActions';
-import { setLoginLoading, setRegLoading } from '../../reducers/uiReducer/uiActions';
+import { setLoginLoading, setRegLoading, setLogoutLoading } from '../../reducers/uiReducer/uiActions';
 
 function* registrationWorker(action: IAction<IAuthInfo>) {
     yield put(setRegLoading(true))
@@ -16,6 +16,7 @@ function* registrationWorker(action: IAction<IAuthInfo>) {
         email,
         password
     );
+    yield localStorage.setItem('token', response.accessToken)
     const userInfo: IUserInfo = { isAuthenticated: false, user: response.user };
     yield put(setUserInfo(userInfo));
     yield put(setRegLoading(false))
@@ -27,15 +28,35 @@ function* loginWorker(action: IAction<IAuthInfo>) {
         email,
         password
     );
+    yield localStorage.setItem('token', response.accessToken)
     const userInfo: IUserInfo = { isAuthenticated: true, user: response.user };
 
     yield put(setUserInfo(userInfo));
     yield put(setLoginLoading(false))
 }
 
+function* logoutWorker(action: IAction<IAuthInfo>) {
+    yield put(setLogoutLoading(true))
+    yield action.payload;
+    yield AuthService.logout();
+    yield localStorage.removeItem('token')
+    const userInfo: IUserInfo = {
+        isAuthenticated: false, user: {
+            email: '',
+            id: '',
+            roles: [],
+            isActivated: false,
+        }
+    };
+
+    yield put(setUserInfo(userInfo));
+    yield put(setLogoutLoading(false))
+}
+
 function* authWatcher() {
     yield takeEvery('DO_REGISTRATION', registrationWorker);
     yield takeEvery('DO_LOGIN', loginWorker);
+    yield takeEvery('DO_LOGOUT', logoutWorker);
 }
 
 export default authWatcher;

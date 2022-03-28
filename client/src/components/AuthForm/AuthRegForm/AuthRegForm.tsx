@@ -4,7 +4,7 @@ import { TextInput, PasswordInput, Button } from '@mantine/core';
 import { At, Lock, Check } from 'tabler-icons-react';
 import { doRegistration } from '../../../store/sagas/authSaga/actions';
 
-import { IAuthInfo } from '../../../interfaces';
+import { IAuthInfo, IUiInfo } from '../../../interfaces';
 
 const AuthRegForm: FC = () => {
     const dispatcher = useDispatch();
@@ -14,7 +14,7 @@ const AuthRegForm: FC = () => {
         password: '',
     });
 
-    const isRegLoading = useSelector((state: any) => state.uiInfo.isRegLoading);
+    const isRegLoading = useSelector((state: IUiInfo) => state.uiInfo.isRegLoading);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

@@ -3,6 +3,7 @@ import { IAction } from '../../../interfaces';
 const initState = {
   isLoginLoading: false,
   isRegLoading: false,
+  isLogoutLoading: false,
 };
 
 const uiReducer = (
@@ -14,6 +15,8 @@ const uiReducer = (
       return { ...state, isLoginLoading: action.payload }
     case 'SET_REG_LOADING':
       return { ...state, isRegLoading: action.payload }
+    case 'SET_LOGOUT_LOADING':
+      return { ...state, isLogoutLoading: action.payload }
     default:
       return state;
   }

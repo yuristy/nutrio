@@ -20,6 +20,12 @@ class AuthService {
             .post('/auth/login', { email, password })
             .then((response) => response.data);
     }
+
+    logout(
+    ): Promise<AxiosResponse<IAuthResponse>> {
+        return $api
+            .post('/auth/logout')
+    }
 }
 
 export default new AuthService();
