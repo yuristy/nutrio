@@ -18,3 +18,9 @@ export const doLogout = () => {
         type: 'DO_LOGOUT'
     };
 };
+
+export const doCheckAuth = () => {
+    return {
+        type: 'DO_CHECK_AUTH'
+    };
+};
