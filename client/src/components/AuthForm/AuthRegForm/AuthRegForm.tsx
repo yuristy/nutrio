@@ -1,13 +1,17 @@
-import React, { useState, FC } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextInput, PasswordInput, Button } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 import { At, Lock, Check } from 'tabler-icons-react';
 import { doRegistration } from '../../../store/sagas/authSaga/actions';
 
-import { IAuthInfo, IUiInfo } from '../../../interfaces';
+import { IAuthInfo, IUiInfo, IUserAuthInfo } from '../../../interfaces';
 
 const AuthRegForm: FC = () => {
     const dispatcher = useDispatch();
+    const isAuthenticated = useSelector(
+        (state: IUserAuthInfo) => state.authInfo.isAuthenticated
+    );
 
     const [formValue, setFormValue] = useState<IAuthInfo>({
         email: '',
@@ -15,6 +19,14 @@ const AuthRegForm: FC = () => {
     });
 
     const isRegLoading = useSelector((state: IUiInfo) => state.uiInfo.isRegLoading);
+
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            return navigate('/');
+        }
+    });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

@@ -1,10 +1,10 @@
 import React, { useState, FC, useCallback, useEffect } from 'react';
-import { useDispatch, connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TextInput, PasswordInput, Button } from '@mantine/core';
-import { At, Key, Lock } from 'tabler-icons-react';
+import { At, Lock } from 'tabler-icons-react';
 
-import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
+// import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
 import { doLogin } from '../../../store/sagas/authSaga/actions';
 
 import { IAuthInfo, IUserAuthInfo, IUiInfo } from '../../../interfaces';
@@ -18,6 +18,7 @@ const AuthLoginForm: FC = () => {
     const isLoginLoading = useSelector(
         (state: IUiInfo) => state.uiInfo.isLoginLoading
     );
+
     let navigate = useNavigate();
 
     useEffect(() => {
