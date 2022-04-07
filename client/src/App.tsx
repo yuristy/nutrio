@@ -1,17 +1,14 @@
 import { FC, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { LoadingOverlay } from '@mantine/core';
-import './App.scss';
+import { useAppSelector, useAppDispatch } from './hooks';
 import { doCheckAuth } from './store/sagas/authSaga/actions';
-import { IUiInfo } from './interfaces';
 import { AppRouter } from './components/AppRouter/AppRouter';
+import './App.scss';
 
 const App: FC = () => {
-    const dispatcher = useDispatch();
-    const isUILoading = useSelector(
-        (state: IUiInfo) => state.uiInfo.isUILoading
-    );
+    const dispatcher = useAppDispatch();
+    const { isUILoading } = useAppSelector((state) => state.uiInfo);
 
     useEffect(() => {
         if (localStorage.getItem('token')) {

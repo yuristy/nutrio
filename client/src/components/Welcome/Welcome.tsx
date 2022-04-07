@@ -1,24 +1,21 @@
 import { FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { IUserAuthInfo, IUiInfo } from '../../interfaces';
 import { Button } from '@mantine/core';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { doLogout } from '../../store/sagas/authSaga/actions';
 
 import './Welcome.scss';
 
 const Welcome: FC = () => {
-    const dispatcher = useDispatch();
-    const isAuthenticated = useSelector(
-        (state: IUserAuthInfo) => state.authInfo.isAuthenticated
+    const dispatcher = useAppDispatch();
+    const isAuthenticated = useAppSelector(
+        (state) => state.authInfo?.isAuthenticated
     );
 
     const handleClick = async () => {
         dispatcher(doLogout());
     };
-    const isLogoutLoading = useSelector(
-        (state: IUiInfo) => state.uiInfo.isLogoutLoading
-    );
+    const { isLogoutLoading } = useAppSelector((state) => state.uiInfo);
 
     if (!isAuthenticated) {
         return (

@@ -1,23 +1,18 @@
 import React, { useState, FC, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TextInput, PasswordInput, Button } from '@mantine/core';
 import { At, Lock } from 'tabler-icons-react';
-
-// import { useAppSelector, useAppDispatch } from '../../../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { doLogin } from '../../../store/sagas/authSaga/actions';
-
-import { IAuthInfo, IUserAuthInfo, IUiInfo } from '../../../interfaces';
+import { IAuthInfo } from '../../../interfaces';
 
 const AuthLoginForm: FC = () => {
-    const dispatcher = useDispatch();
-    const isAuthenticated = useSelector(
-        (state: IUserAuthInfo) => state.authInfo.isAuthenticated
+    const dispatcher = useAppDispatch();
+    const isAuthenticated = useAppSelector(
+        (state) => state.authInfo?.isAuthenticated
     );
 
-    const isLoginLoading = useSelector(
-        (state: IUiInfo) => state.uiInfo.isLoginLoading
-    );
+    const { isLoginLoading } = useAppSelector((state) => state.uiInfo);
 
     let navigate = useNavigate();
 
@@ -101,10 +96,4 @@ const AuthLoginForm: FC = () => {
     );
 };
 
-// function mapStateToProps(state) {
-// const {isAuthenticated} = state;
-// return { isAuthenticated: true }
-// }
-
 export default AuthLoginForm;
-// export default connect(mapStateToProps)(AuthLoginForm)

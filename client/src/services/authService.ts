@@ -1,5 +1,5 @@
-import $api from '../http';
 import { AxiosResponse } from 'axios';
+import $api from '../http';
 import { IAuthResponse } from '../interfaces/index';
 
 class AuthService {
@@ -21,10 +21,8 @@ class AuthService {
             .then((response) => response.data);
     }
 
-    logout(
-    ): Promise<AxiosResponse<IAuthResponse>> {
-        return $api
-            .post('/auth/logout')
+    logout(): Promise<AxiosResponse<IAuthResponse>> {
+        return $api.post('/auth/logout');
     }
 }
 

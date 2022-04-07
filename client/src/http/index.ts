@@ -15,22 +15,31 @@ $api.interceptors.request.use((config: AxiosRequestConfig) => {
     return config;
 });
 
-$api.interceptors.response.use((config: AxiosResponse) => {
-    return config;
-}, async (error) => {
-    try {
-        const originalRequest = error.config;
-        if (error.response.status === 401 && error.config && !error.config._isRetry) {
-            originalRequest._isRetry = true;
-            const response: AxiosResponse<IAuthResponse> = await axios.get(`${API_URL}/auth/refresh`, { withCredentials: true });
-            localStorage.setItem('token', response.data.accessToken)
-            return $api.request(originalRequest);
+$api.interceptors.response.use(
+    (config: AxiosResponse) => {
+        return config;
+    },
+    async (error) => {
+        try {
+            const originalRequest = error.config;
+            if (
+                error.response.status === 401 &&
+                error.config &&
+                !error.config._isRetry
+            ) {
+                originalRequest._isRetry = true;
+                const response: AxiosResponse<IAuthResponse> = await axios.get(
+                    `${API_URL}/auth/refresh`,
+                    { withCredentials: true }
+                );
+                localStorage.setItem('token', response.data.accessToken);
+                return $api.request(originalRequest);
+            }
+        } catch (e) {
+            console.log('НЕ АВТОРИЗОВАН');
         }
+        throw error;
     }
-    catch (e) {
-        console.log('НЕ АВТОРИЗОВАН');
-    }
-    throw error;
-});
+);
 
 export default $api;

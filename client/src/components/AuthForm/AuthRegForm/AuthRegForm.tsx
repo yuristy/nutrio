@@ -1,16 +1,16 @@
 import React, { useState, useEffect, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { TextInput, PasswordInput, Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { TextInput, PasswordInput, Button } from '@mantine/core';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { At, Lock, Check } from 'tabler-icons-react';
 import { doRegistration } from '../../../store/sagas/authSaga/actions';
 
-import { IAuthInfo, IUiInfo, IUserAuthInfo } from '../../../interfaces';
+import { IAuthInfo } from '../../../interfaces';
 
 const AuthRegForm: FC = () => {
-    const dispatcher = useDispatch();
-    const isAuthenticated = useSelector(
-        (state: IUserAuthInfo) => state.authInfo.isAuthenticated
+    const dispatcher = useAppDispatch();
+    const isAuthenticated = useAppSelector(
+        (state) => state.authInfo?.isAuthenticated
     );
 
     const [formValue, setFormValue] = useState<IAuthInfo>({
@@ -18,7 +18,7 @@ const AuthRegForm: FC = () => {
         password: '',
     });
 
-    const isRegLoading = useSelector((state: IUiInfo) => state.uiInfo.isRegLoading);
+    const { isRegLoading } = useAppSelector((state) => state.uiInfo);
 
     let navigate = useNavigate();
 

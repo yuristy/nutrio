@@ -1,13 +1,11 @@
-import { useSelector } from 'react-redux';
+import { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { IUserAuthInfo } from '../../interfaces';
+import { useAppSelector } from '../../hooks';
 import { publicRoutes, privateRoutes } from '../../router';
 import { NotFound } from '../NotFound/NotFound';
 
-export const AppRouter = () => {
-    const isAuth = useSelector(
-        (state: IUserAuthInfo) => state.authInfo.isAuthenticated
-    );
+export const AppRouter: FC = () => {
+    const isAuth = useAppSelector((state) => state.authInfo?.isAuthenticated);
 
     return isAuth ? (
         <Routes>
@@ -18,7 +16,7 @@ export const AppRouter = () => {
                     key={route.path}
                 />
             ))}
-            <Route path='*' element={<NotFound/>} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     ) : (
         <Routes>
@@ -29,7 +27,7 @@ export const AppRouter = () => {
                     key={route.path}
                 />
             ))}
-            <Route path='*' element={<NotFound/>} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 };
